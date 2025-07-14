@@ -1,11 +1,24 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+
+function AvatarModel() {
+  const gltf = useGLTF("https://models.readyplayer.me/68753700aa17a9b1f2d0fd49.glb");
+  return <primitive object={gltf.scene} scale={2.2} position={[0, -1.2, 0]} />;
+}
 
 function Hero() {
   return (
     <section className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-      {/* Replace with real or AI-generated avatar if available */}
-      <div className="w-32 h-32 rounded-full mb-6 bg-gray-300 flex items-center justify-center text-4xl font-bold shadow-lg">
-        HP
+      <div className="w-40 h-60 mb-6 rounded-xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
+        <Canvas camera={{ position: [0, 0, 3.5], fov: 35 }}>
+          <ambientLight intensity={0.8} />
+          <directionalLight position={[2, 2, 2]} intensity={0.7} />
+          <Suspense fallback={null}>
+            <AvatarModel />
+          </Suspense>
+          <OrbitControls enablePan={false} enableZoom={false} />
+        </Canvas>
       </div>
       <h1 className="text-4xl md:text-6xl font-bold mb-2">Harini Parasuraman</h1>
       <p className="text-xl md:text-2xl text-gray-300 mb-2">Frontend Developer & UI/UX Designer</p>
